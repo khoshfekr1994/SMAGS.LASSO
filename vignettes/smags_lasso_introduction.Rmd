@@ -1,0 +1,94 @@
+---
+title: "Introduction to SMAGS.LASSO"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to SMAGS.LASSO}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# During development, use devtools::load_all() instead of library()
+# This loads the package from source without needing installation
+if (requireNamespace("devtools", quietly = TRUE)) {
+  devtools::load_all()
+} else {
+  # Fallback for when package is installed
+  library(SMAGS.LASSO)
+}
+```
+
+# Introduction
+
+This vignette demonstrates how to use the SMAGS.LASSO package for sensitivity maximization at a given specificity with LASSO regularization.
+
+## Basic Usage
+
+Let's start with a simple example:
+
+```{r basic-example}
+# Generate example data
+set.seed(123)
+n <- 100
+p <- 10
+X <- matrix(rnorm(n * p), n, p)
+colnames(X) <- paste0("Feature_", 1:p)
+
+# Create binary outcome with some signal in first 3 features
+y <- as.numeric(rowSums(X[, 1:3]) + rnorm(n, 0, 0.8) > 0)
+
+# Run basic SMAGS
+result <- SMAGS(X, y, SP = 0.95)
+print(result)
+```
+
+## Cross-Validation Example
+
+```{r cv-example}
+# Generate larger dataset
+set.seed(42)
+n <- 200
+p <- 20
+X_large <- matrix(rnorm(n * p), n, p)
+colnames(X_large) <- paste0("Gene_", 1:p)
+
+# Make first 5 features informative
+y_large <- as.numeric(rowSums(X_large[, 1:5]) + rnorm(n, 0, 0.5) > 0)
+
+# Run cross-validation to find optimal lambda
+cv_results <- cv_SMAGS_LASSO(X_large, y_large, SP = 0.95, nfolds = 5)
+
+# Show optimal lambda
+cat("Optimal lambda:", cv_results$lambda_min, "\n")
+```
+
+## Comprehensive Analysis
+
+```{r comprehensive}
+# Split data for train/test analysis
+split_data <- train_test_split(X_large, y_large, train_prop = 0.8)
+
+# Run comprehensive comparison
+comparison <- synthetic_data_results(
+  X_train = split_data$X_train,
+  y_train = split_data$y_train,
+  X_test = split_data$X_test,
+  y_test = split_data$y_test,
+  SP = 0.95,
+  lambda_lasso = 0.01,
+  lambda_smags = cv_results$lambda_min
+)
+
+# Print sensitivity comparison
+cat("Training Sensitivity:\n")
+cat("  LASSO:", comparison$train$lasso$sensitivity, "\n")
+cat("  SMAGS:", comparison$train$M_smags$sensitivity, "\n")
+cat("  SMAGS-LASSO:", comparison$train$smags$sensitivity, "\n")
+```
