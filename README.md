@@ -235,19 +235,6 @@ The package provides comprehensive evaluation:
 - **Cross-validation** error curves
 - **Model comparison** across different methods
 
-## Citation
-
-If you use SMAGS.LASSO in your research, please cite:
-
-```bibtex
-@misc{smagslasso2024,
-  title={SMAGS.LASSO: Sensitivity Maximization at a Given Specificity with LASSO Regularization},
-  author={[Your Name]},
-  year={2024},
-  url={https://github.com/yourusername/SMAGS.LASSO}
-}
-```
-
 ## Requirements
 
 - R ≥ 3.5.0
