@@ -27,7 +27,7 @@ Install the package directly from GitHub:
 if (!require(devtools)) install.packages("devtools")
 
 # Install SMAGS.LASSO
-devtools::install_github("yourusername/SMAGS.LASSO")
+devtools::install_github("khoshfekr1994/SMAGS.LASSO")
 ```
 
 ### Dependencies
@@ -247,7 +247,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contributing
 
 Contributions are welcome! Please feel free to:
-- Report bugs via [Issues](https://github.com/yourusername/SMAGS.LASSO/issues)
+- Report bugs via [Issues](https://github.com/khoshfekr1994/SMAGS.LASSO/issues)
 - Suggest enhancements
 - Submit pull requests
 
@@ -255,7 +255,7 @@ Contributions are welcome! Please feel free to:
 
 ```r
 # Clone and install development version
-devtools::install_github("yourusername/SMAGS.LASSO", ref = "develop")
+devtools::install_github("khoshfekr1994/SMAGS.LASSO", ref = "develop")
 
 # Run tests
 devtools::test()
