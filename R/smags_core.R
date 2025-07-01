@@ -74,7 +74,7 @@ SMAGS <- function(X, y, SP) {
   custom_loss <- function(coefs) {
     m <- as.matrix(X1) %*% coefs
     z <- sigmoid(m)
-    threshold <- quantile((1 - y) * z[(1 - y) * z != 0], prob = SP)
+    threshold <- quantile(((1 - y) * z)[(1 - y) * z != 0], prob = SP)
     if(is.na(threshold)) threshold <- 0
 
     y_hat <- as.numeric(z > threshold)
@@ -97,7 +97,7 @@ SMAGS <- function(X, y, SP) {
       # Calculate performance metrics
       pred <- X1 %*% result$par
       prob <- sigmoid(pred)
-      threshold <- quantile((1 - y) * prob[(1 - y) * prob != 0], prob = SP)
+      threshold <- quantile(((1 - y) * z)[(1 - y) * z != 0], prob = SP)
       if(is.na(threshold)) threshold <- 0
       pred_class <- as.numeric(prob > threshold)
 
@@ -212,7 +212,7 @@ SMAGS_LASSO <- function(X, y, SP, lambda) {
   custom_loss <- function(coefs, lambda) {
     m <- X1 %*% coefs
     z <- sigmoid(m)
-    threshold <- quantile((1 - y) * z[(1 - y) * z != 0], prob = SP)
+    threshold <- quantile(((1 - y) * z)[(1 - y) * z != 0], prob = SP)
     if(is.na(threshold)) threshold <- 0
 
     y_hat <- as.numeric(z > threshold)
@@ -237,7 +237,7 @@ SMAGS_LASSO <- function(X, y, SP, lambda) {
       # Calculate performance metrics
       pred <- X1 %*% result$par
       prob <- sigmoid(pred)
-      threshold <- quantile((1 - y) * prob[(1 - y) * prob != 0], prob = SP)
+      threshold <- quantile(((1 - y) * z)[(1 - y) * z != 0], prob = SP)
       if(is.na(threshold)) threshold <- 0
       pred_class <- as.numeric(prob > threshold)
 
